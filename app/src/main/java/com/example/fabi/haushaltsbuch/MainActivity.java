@@ -22,6 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Value value = new Value();
 
-        //ToDo Widgets init und nen Value in die DB schrieben
+        //ToDo Widgets init und einen Value in die DB schrieben
     }
 }
