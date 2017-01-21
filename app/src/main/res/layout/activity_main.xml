@@ -10,8 +10,40 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.fabi.haushaltsbuch.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Betrag"
+            android:ems="10"
+            android:id="@+id/txtInput_Betrag" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Beschreibung"
+            android:ems="10"
+            android:id="@+id/txtInput_Beschreibung" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="101dp"
+            android:id="@+id/txtOutput_Added"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/list_kategorie" />
+    </LinearLayout>
+
 </RelativeLayout>
