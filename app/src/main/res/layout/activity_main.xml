@@ -19,17 +19,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Betrag"
             android:ems="10"
-            android:id="@+id/txtInput_Betrag" />
+            android:id="@+id/txtInput_Betrag"
+            android:hint="Betrag" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Beschreibung"
             android:ems="10"
-            android:id="@+id/txtInput_Beschreibung" />
+            android:id="@+id/txtInput_Beschreibung"
+            android:hint="Beschreibung" />
 
         <TextView
             android:layout_width="match_parent"
