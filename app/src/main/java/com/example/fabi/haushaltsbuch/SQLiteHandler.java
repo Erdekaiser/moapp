@@ -7,14 +7,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.sql.Date;
-import java.util.Currency;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
+ * Klasse für den Zugriff auf die SQLite Datenbank
+ *
  * Created by Fabian on 21.01.2017.
  */
 
-public class SQLiteHandler extends SQLiteOpenHelper{
+class SQLiteHandler extends SQLiteOpenHelper{
 
     private static final String TABLE_BALANCE = "balance";
 
@@ -30,7 +34,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "HaushaltsbuchDB";
 
 
-    public SQLiteHandler(Context context) {
+    SQLiteHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -57,7 +61,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         this.onCreate(db);
     }
 
-    public void addValue(Value value){
+    void addValue(Value value){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -72,7 +76,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         db.close();
     }
 
-    public Value getValue(int id){
+    public Value getValue(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor =
@@ -90,12 +94,14 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         }
 
         Value value = new Value();
+        assert cursor != null;
         value.setId(Integer.parseInt(cursor.getString(0)));
-        value.setDatum(Date.valueOf(cursor.getString(1)));
+        value.setDatum(castStringtoDate(cursor.getString(1)));
         value.setBeschreibung(cursor.getString(2));
         value.setBetrag(Float.valueOf(cursor.getString(3)));
         value.setKategorie(cursor.getString(4));
 
+        cursor.close();
         return value;
     }
 
@@ -104,4 +110,15 @@ public class SQLiteHandler extends SQLiteOpenHelper{
     //updateValue
 
     //deleteValue
+
+    private Date castStringtoDate(String string) {
+        SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        Date date = null;
+        try {
+            date = sdf.parse(string);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
 }

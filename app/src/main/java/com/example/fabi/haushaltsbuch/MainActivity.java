@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         txtOutputValue = (TextView) findViewById(R.id.txtOutput_Added);
         lvKategorien = (ListView) findViewById(R.id.list_kategorie);
 
-        ArrayAdapter<String> lvAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, KATEGORIEN);
+        ArrayAdapter<String> lvAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, KATEGORIEN);
         lvKategorien.setAdapter(lvAdapter);
         lvKategorien.setOnItemClickListener(this);
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String tmpBetrag = txtInputBetrag.getText().toString();
         String tmpBeschreibung = txtInputBeschreibung.getText().toString();
-        String tmpTxtAusgabe = null;
+        String tmpTxtAusgabe;
 
         if(tmpBeschreibung.equals("")){
             tmpBeschreibung = "Ohne Beschreibung.";
@@ -72,12 +73,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             db.addValue(value);
 
-            db.getValue(0);
-            System.out.println( "ID:\t" + value.getId() + "\n" +
-                    "Betrag:\t" + value.getBetrag() + "\n" +
-                    "Beschreibung:\t " + value.getBeschreibung() + "\n" +
-                    "Datum:\t" + value.getDatum() + "\n" +
-                    "Kategorie:\t" + value.getKategorie());
+            //System.out.println(db.getValue(1).getDatum());
 
             txtInputBetrag.setText("");
             txtInputBeschreibung.setText("");
