@@ -69,12 +69,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             "Kategorie:\t" + KATEGORIEN[position];
             txtOutputValue.setText(tmpTxtAusgabe);
             value = new Value(0, currentDate, tmpBeschreibung, Float.valueOf(tmpBetrag), KATEGORIEN[position]);
-            System.out.println( "ID:\t" + value.getId() + "\n" +
-                                "Betrag:\t" + value.getBetrag() + "\n" +
-                                "Beschreibung:\t " + value.getBeschreibung() + "\n" +
-                                "Datum:\t" + value.getDatum() + "\n" +
-                                "Kategorie:\t" + value.getKategorie());
+
             db.addValue(value);
+
+            db.getValue(0);
+            System.out.println( "ID:\t" + value.getId() + "\n" +
+                    "Betrag:\t" + value.getBetrag() + "\n" +
+                    "Beschreibung:\t " + value.getBeschreibung() + "\n" +
+                    "Datum:\t" + value.getDatum() + "\n" +
+                    "Kategorie:\t" + value.getKategorie());
+
             txtInputBetrag.setText("");
             txtInputBeschreibung.setText("");
         }
