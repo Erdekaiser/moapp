@@ -11,14 +11,14 @@ public class Value {
     private int id;
     private Date datum;
     private String beschreibung;
-    private Currency betrag;
+    private Float betrag;
     private String kategorie;
 
     public Value(){
 
     }
 
-    public Value(int id, Date datum, String beschreibung, Currency betrag, String kategorie){
+    public Value(int id, Date datum, String beschreibung, Float betrag, String kategorie){
         this.id = id;
         this.datum = datum;
         this.beschreibung = beschreibung;
@@ -50,11 +50,11 @@ public class Value {
         this.id = id;
     }
 
-    public Currency getBetrag() {
+    public Float getBetrag() {
         return betrag;
     }
 
-    public void setBetrag(Currency betrag) {
+    public void setBetrag(Float betrag) {
         this.betrag = betrag;
     }
 

@@ -36,13 +36,13 @@ public class SQLiteHandler extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_BALANCE_TABLE = "CREATE TABLE" + TABLE_BALANCE +
+        String CREATE_BALANCE_TABLE = "CREATE TABLE " + TABLE_BALANCE +
                 " ( " +
-                KEY_ID              + " INT PRIMARY KEY AUTOINCREMENT, " +
-                KEY_DATUM           + " DATE NOT NULL, " +
+                KEY_ID              + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                KEY_DATUM           + " DATE, " +
                 KEY_BESCHREIBUNG    + " TEXT, " +
-                KEY_BETRAG          + " DECIMAL(10,2) NOT NULL, " +
-                KEY_KATEGORIE       + " TEXT NOT NULL" +
+                KEY_BETRAG          + " DECIMAL(10,2), " +
+                KEY_KATEGORIE       + " TEXT" +
                 " )";
 
         Log.d("Create Table: " , CREATE_BALANCE_TABLE);
@@ -66,6 +66,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         values.put(KEY_BETRAG, value.getBetrag().toString());
         values.put(KEY_KATEGORIE, value.getKategorie());
 
+        Log.d("Add Value: " , values.toString());
         db.insert(TABLE_BALANCE, null, values);
 
         db.close();
@@ -92,7 +93,7 @@ public class SQLiteHandler extends SQLiteOpenHelper{
         value.setId(Integer.parseInt(cursor.getString(0)));
         value.setDatum(Date.valueOf(cursor.getString(1)));
         value.setBeschreibung(cursor.getString(2));
-        value.setBetrag(Currency.getInstance(cursor.getString(3)));
+        value.setBetrag(Float.valueOf(cursor.getString(3)));
         value.setKategorie(cursor.getString(4));
 
         return value;
