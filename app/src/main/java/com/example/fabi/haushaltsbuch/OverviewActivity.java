@@ -36,6 +36,8 @@ public class OverviewActivity extends Fragment {
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
 
+        //ToDo mit Tatsächlichen Daten füllen
+
         listDataHeader.add("2017");
         listDataHeader.add("2016");
 
