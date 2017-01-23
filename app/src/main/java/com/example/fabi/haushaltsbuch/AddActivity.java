@@ -41,6 +41,9 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
 
         txtInputBeschreibung = (EditText) addFragmentView.findViewById(R.id.txtInput_Beschreibung);
         txtOutputValue = (TextView) addFragmentView.findViewById(R.id.txtOutput_Added);
+
+        //ToDo Icons auf die Liste
+        //ToDo mehr Kategorien
         lvKategorien = (ListView) addFragmentView.findViewById(R.id.list_kategorie);
 
         ArrayAdapter<String> lvAdapter = new ArrayAdapter<>(MainActivity.mainContext, android.R.layout.simple_expandable_list_item_1, KATEGORIEN);
