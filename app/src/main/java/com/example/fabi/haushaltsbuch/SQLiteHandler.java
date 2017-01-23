@@ -105,7 +105,7 @@ class SQLiteHandler extends SQLiteOpenHelper{
         return value;
     }
 
-    //getAllValues
+
 
     //updateValue
 

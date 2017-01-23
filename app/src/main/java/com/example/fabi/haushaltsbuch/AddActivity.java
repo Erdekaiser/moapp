@@ -44,6 +44,7 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
 
         //ToDo Icons auf die Liste
         //ToDo mehr Kategorien
+
         lvKategorien = (ListView) addFragmentView.findViewById(R.id.list_kategorie);
 
         ArrayAdapter<String> lvAdapter = new ArrayAdapter<>(MainActivity.mainContext, android.R.layout.simple_expandable_list_item_1, KATEGORIEN);

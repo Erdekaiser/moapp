@@ -8,9 +8,17 @@ import android.view.ViewGroup;
 
 public class OverviewActivity extends Fragment {
 
+    private View addFragmentView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_overview, null);
+        addFragmentView = inflater.inflate(R.layout.layout_overview, null);
+
+
+
+
+
+        return addFragmentView;
     }
 }
