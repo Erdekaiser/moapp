@@ -10,6 +10,8 @@ import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,7 +34,6 @@ class SQLiteHandler extends SQLiteOpenHelper{
 
     private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "HaushaltsbuchDB";
-
 
     SQLiteHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -105,11 +106,32 @@ class SQLiteHandler extends SQLiteOpenHelper{
         return value;
     }
 
+    public List<Value> getAllValues(){
+        Value value;
+        List<Value> values = new LinkedList<>();
+        String query = "SELECT * FROM " + TABLE_BALANCE;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()) {
+            do {
+                value = new Value();
+                value.setId(Integer.parseInt(cursor.getString(0)));
+                value.setDatum(castStringtoDate(cursor.getString(1)));
+                value.setBeschreibung(cursor.getString(2));
+                value.setBetrag(Float.valueOf(cursor.getString(3)));
+                value.setKategorie(cursor.getString(4));
+            } while (cursor.moveToNext());
+        }
+        return values;
+    }
 
-
-    //updateValue
-
-    //deleteValue
+    public void deleteValue(Value value){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_BALANCE,
+                KEY_ID + " =  ?",
+                new String[]{String.valueOf(value.getId())});
+        db.close();
+    }
 
     private Date castStringtoDate(String string) {
         SimpleDateFormat sdf = new SimpleDateFormat("EE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
