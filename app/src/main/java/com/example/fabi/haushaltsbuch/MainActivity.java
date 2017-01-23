@@ -1,82 +1,103 @@
 package com.example.fabi.haushaltsbuch;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, InputType {
+public class MainActivity extends AppCompatActivity {
 
-    private SQLiteHandler db;
-    private Date currentDate;
-    private Value value;
+    public static SQLiteHandler db;
+    public static AppCompatActivity mainContext;
 
-    private String[] KATEGORIEN = new String[]{"Games", "Movies", "Lebensmittel", "Haushalt", "Tanken", "Fixkosten"};
+    private Toolbar toolbar;
+    private ViewPager viewPager;
+    private TabLayout tabs;
 
-    private ListView lvKategorien = null;
-    private EditText txtInputBetrag = null;
-    private EditText txtInputBeschreibung = null;
-    private TextView txtOutputValue = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.layout_activity_main);
+
+        //ToolbarLayout erstellen
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //ViewPager
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        //TabLayout erstellen
+        tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
 
         db = new SQLiteHandler(this);
+        mainContext = this;
+    }
 
-        currentDate = new Date();
+    private void setupViewPager(ViewPager viewPager) {
+        Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter.addFragment(new AddActivity(), "Add");
+        adapter.addFragment(new OverviewActivity(), "Overview");
+        viewPager.setAdapter(adapter);
+    }
 
-        txtInputBetrag = (EditText) findViewById(R.id.txtInput_Betrag);
-        //txtInputBetrag.setRawInputType(Configuration.KEYBOARD_12KEY);
+    static class Adapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        txtInputBeschreibung = (EditText) findViewById(R.id.txtInput_Beschreibung);
-        txtOutputValue = (TextView) findViewById(R.id.txtOutput_Added);
-        lvKategorien = (ListView) findViewById(R.id.list_kategorie);
+        public Adapter(FragmentManager manager) {
+            super(manager);
+        }
 
-        ArrayAdapter<String> lvAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, KATEGORIEN);
-        lvKategorien.setAdapter(lvAdapter);
-        lvKategorien.setOnItemClickListener(this);
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
 
-        //ToDo einen Value in die DB schrieben
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String tmpBetrag = txtInputBetrag.getText().toString();
-        String tmpBeschreibung = txtInputBeschreibung.getText().toString();
-        String tmpTxtAusgabe;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-        if(tmpBeschreibung.equals("")){
-            tmpBeschreibung = "Ohne Beschreibung.";
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
-
-        if(tmpBetrag.equals("")){
-            Toast.makeText(this.getApplicationContext(), "Bitte einen Wert bei Betrag eintragen!", Toast.LENGTH_LONG).show();
-        }else{
-            tmpTxtAusgabe = "Hinzugefügt:\n" +
-                            "Betrag:\t" + tmpBetrag + "\n" +
-                            "Beschreibung:\t" + tmpBeschreibung + "\n" +
-                            "Kategorie:\t" + KATEGORIEN[position];
-            txtOutputValue.setText(tmpTxtAusgabe);
-            value = new Value(0, currentDate, tmpBeschreibung, Float.valueOf(tmpBetrag), KATEGORIEN[position]);
-
-            db.addValue(value);
-
-            //System.out.println(db.getValue(1).getDatum());
-
-            txtInputBetrag.setText("");
-            txtInputBeschreibung.setText("");
-        }
+        return super.onOptionsItemSelected(item);
     }
 }
