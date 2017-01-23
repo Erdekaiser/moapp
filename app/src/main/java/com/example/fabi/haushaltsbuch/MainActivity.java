@@ -16,8 +16,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static SQLiteHandler db;
-    public static AppCompatActivity mainContext;
+    private AppCompatActivity mainContext;
+    private SQLiteHandler db;
 
     private Toolbar toolbar;
     private ViewPager viewPager;
@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_activity_main);
+
+        mainContext = this;
+        db = new SQLiteHandler(this);
 
         //ToolbarLayout
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -43,14 +46,13 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(0).setIcon(R.drawable.ic_add);
         tabs.getTabAt(1).setIcon(R.drawable.ic_overview);
 
-        db = new SQLiteHandler(this);
-        mainContext = this;
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new AddActivity(), "Add");
-        adapter.addFragment(new OverviewActivity(), "Overview");
+        adapter.addFragment(new AddActivity(mainContext, db), "Add");
+        adapter.addFragment(new OverviewActivity(mainContext, db), "Overview");
         viewPager.setAdapter(adapter);
     }
 

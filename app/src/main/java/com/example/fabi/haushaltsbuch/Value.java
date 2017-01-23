@@ -10,6 +10,7 @@ import java.util.Date;
 public class Value {
     private int id;
     private Date datum;
+    private int monat;
     private String beschreibung;
     private Float betrag;
     private String kategorie;
@@ -19,8 +20,13 @@ public class Value {
     }
 
     public Value(int id, Date datum, String beschreibung, Float betrag, String kategorie){
+        this(id, datum, 0, beschreibung, betrag, kategorie);
+    }
+
+    public Value(int id, Date datum, int monat, String beschreibung, Float betrag, String kategorie){
         this.id = id;
         this.datum = datum;
+        this.monat = monat;
         this.beschreibung = beschreibung;
         this.betrag = betrag;
         this.kategorie = kategorie;
@@ -64,5 +70,14 @@ public class Value {
 
     public void setKategorie(String kategorie) {
         this.kategorie = kategorie;
+    }
+
+
+    public int getMonat() {
+        return monat;
+    }
+
+    public void setMonat(int monat) {
+        this.monat = monat;
     }
 }

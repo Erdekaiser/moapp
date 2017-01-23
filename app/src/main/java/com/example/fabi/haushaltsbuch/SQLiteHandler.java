@@ -10,6 +10,7 @@ import android.util.Log;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -120,10 +121,49 @@ class SQLiteHandler extends SQLiteOpenHelper{
                 value.setBeschreibung(cursor.getString(2));
                 value.setBetrag(Float.valueOf(cursor.getString(3)));
                 value.setKategorie(cursor.getString(4));
+                values.add(value);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return values;
     }
+
+    //Feed it a Year and it shall return the SUM for each Month in this Year.
+    /*public HashMap<Integer, Float> getAllMonth(int jahr){
+        Integer monat;
+        Float betragSum;
+        HashMap<Integer, Float> betragsSummen = new HashMap<>();
+        String[] Colums = new String[]{"CAST(strftime('%m', " + KEY_DATUM + ") AS INTEGER)", "SUM(" + KEY_BETRAG + ")"};
+        String selection = "strftime('%Y', " + KEY_DATUM + ")=?";
+        String[] arguments = new String[]{String.valueOf(jahr)};
+        String groupBy = "CAST(strftime('%m', " + KEY_DATUM + ") AS INTEGER)";
+        String having = null;
+        String orderBY = "CAST(strftime('%m', " + KEY_DATUM + ") AS INTEGER) ASC";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.query(
+                        TABLE_BALANCE,
+                        Colums,
+                        null,
+                        null,
+                        groupBy,
+                        having,
+                        orderBY);
+
+        if(cursor != null) {
+            cursor.moveToFirst();
+            do {
+                monat = new Integer(Integer.parseInt(cursor.getString(0)));
+                betragSum = new Float(Float.valueOf(cursor.getString(1)));
+                betragsSummen.put(monat, betragSum);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        return betragsSummen;
+    }
+    */
 
     public void deleteValue(Value value){
         SQLiteDatabase db = this.getWritableDatabase();
