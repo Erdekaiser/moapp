@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 public class AddActivity extends Fragment implements AdapterView.OnItemClickListener{

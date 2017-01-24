@@ -22,15 +22,13 @@ public class OverviewActivity extends Fragment {
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHash;
 
-    private HashMap<Integer, Float> betragSummen;
-
     private AppCompatActivity mainContext;
     private SQLiteHandler db;
-    private int jahr;
 
-    OverviewActivity(){}
+    OverviewActivity() {
+    }
 
-    OverviewActivity(AppCompatActivity mainContext, SQLiteHandler db){
+    OverviewActivity(AppCompatActivity mainContext, SQLiteHandler db) {
         this.mainContext = mainContext;
         this.db = db;
     }
@@ -49,27 +47,32 @@ public class OverviewActivity extends Fragment {
         return addFragmentView;
     }
 
-    private void initData(){
+    private void initData() {
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
-        betragSummen = new HashMap<Integer, Float>();
-
-
         List<Value> values = new LinkedList<>();
+        int ausgabenJanuar = 0;
         values.addAll(db.getAllValues());
-
-        List<ListHeaderValue> lhValues = new LinkedList<>();
 
         Calendar cal = Calendar.getInstance();
 
         //Objekte gruppieren und sortieren
+        List<String> Januar = new ArrayList<>();
+        int betragJanuar = 0;
+        listDataHeader.add(0, "Keine Einträge.");
 
-        for(Value value : values){
+        for (Value value : values) {
             cal.setTime(value.getDatum());
-            int monat = cal.get(Calendar.MONTH)+1;
+            int monat = cal.get(Calendar.MONTH) + 1;
+            String listDataHeaderString = "";
 
-            switch(monat){
+            switch (monat) {
                 case 1:
+                    ausgabenJanuar += value.getBetrag();
+                    listDataHeaderString = "Januar: \t Ausgaben: " + ausgabenJanuar + " €";
+                    listDataHeader.set(0, listDataHeaderString);
+                    int Datum = cal.get(Calendar.DAY_OF_MONTH);
+                    Januar.add(value.getKategorie() + " (" + Datum + ".) " + value.getBetrag());
                     break;
                 case 2:
                     break;
@@ -97,16 +100,7 @@ public class OverviewActivity extends Fragment {
             }
         }
 
-
-
-
-
-        for(Value value : values){
-            cal.setTime(value.getDatum());
-            listDataHeader.add(monthToMonth(cal.get(Calendar.MONTH)+1));
-        }
-
-
+        listHash.put(listDataHeader.get(0), Januar);
 
         //ToDo mit Tatsächlichen Daten füllen
 
@@ -123,38 +117,51 @@ public class OverviewActivity extends Fragment {
         //Februar.add("Game3");
         //Februar.add("Game4");
 
-        //listHash.put(listDataHeader.get(0), Content);
+
         //listHash.put(listDataHeader.get(1), Februar);
     }
 
-    private String monthToMonth(int monat){
+    private String monthToMonth(int monat) {
         String monatName = null;
-        switch(monat) {
-            case 1: monatName = "Januar";
-                    break;
-            case 2: monatName = "Februar";
-                    break;
-            case 3: monatName = "März";
-                    break;
-            case 4: monatName = "April";
-                    break;
-            case 5: monatName = "Mai";
-                    break;
-            case 6: monatName = "Juni";
-                    break;
-            case 7: monatName = "Juli";
-                    break;
-            case 8: monatName = "August";
-                    break;
-            case 9: monatName = "September";
-                    break;
-            case 10:    monatName = "Oktober";
-                        break;
-            case 11:    monatName = "November";
-                        break;
-            case 12:    monatName = "Dezember";
-                        break;
-            default: monatName = "Monat Unbekannt!";
+        switch (monat) {
+            case 1:
+                monatName = "Januar";
+                break;
+            case 2:
+                monatName = "Februar";
+                break;
+            case 3:
+                monatName = "März";
+                break;
+            case 4:
+                monatName = "April";
+                break;
+            case 5:
+                monatName = "Mai";
+                break;
+            case 6:
+                monatName = "Juni";
+                break;
+            case 7:
+                monatName = "Juli";
+                break;
+            case 8:
+                monatName = "August";
+                break;
+            case 9:
+                monatName = "September";
+                break;
+            case 10:
+                monatName = "Oktober";
+                break;
+            case 11:
+                monatName = "November";
+                break;
+            case 12:
+                monatName = "Dezember";
+                break;
+            default:
+                monatName = "Monat Unbekannt!";
         }
         return monatName;
     }
