@@ -1,5 +1,6 @@
 package com.example.fabi.haushaltsbuch;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -89,13 +91,15 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
                     "Betrag:\t" + tmpBetrag + "\n" +
                     "Beschreibung:\t" + tmpBeschreibung + "\n" +
                     "Kategorie:\t" + KATEGORIEN[position];
+
             txtOutputValue.setText(tmpTxtAusgabe);
             value = new Value(0, currentDate, tmpBeschreibung, Float.valueOf(tmpBetrag), KATEGORIEN[position]);
 
             db.addValue(value);
-
+            ((MainActivity)getActivity()).getAdapter().notifyDataSetChanged();
             txtInputBetrag.setText("");
             txtInputBeschreibung.setText("");
         }
     }
 }
+

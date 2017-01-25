@@ -57,6 +57,7 @@ public class OverviewActivity extends Fragment {
         Calendar cal = Calendar.getInstance();
 
         //Objekte gruppieren und sortieren
+        //Zur Hash Map umfunktionieren um Value Objekt als Key zu nutzen und löschen zu ermöglichen.
         List<String> Januar = new ArrayList<>();
         int betragJanuar = 0;
         listDataHeader.add(0, "Keine Einträge.");
@@ -69,10 +70,10 @@ public class OverviewActivity extends Fragment {
             switch (monat) {
                 case 1:
                     ausgabenJanuar += value.getBetrag();
-                    listDataHeaderString = "Januar: \t Ausgaben: " + ausgabenJanuar + " €";
+                    listDataHeaderString = monthToMonth(monat) + ": \t\t\t Ausgaben: " + ausgabenJanuar + " €";
                     listDataHeader.set(0, listDataHeaderString);
                     int Datum = cal.get(Calendar.DAY_OF_MONTH);
-                    Januar.add(value.getKategorie() + " (" + Datum + ".) " + value.getBetrag());
+                    Januar.add(Datum + ". " + "value.getKategorie() + "  + value.getBetrag());
                     break;
                 case 2:
                     break;
