@@ -17,15 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class AddActivity extends Fragment implements AdapterView.OnItemClickListener{
 
     private Date currentDate;
     private Value value;
-    private List<Value> values;
+    private CustomList clAdapter;
 
     private String[] KATEGORIEN = new String[]{"Games", "Movies", "Lebensmittel", "Haushalt", "Tanken", "Fixkosten"};
+    private Integer[] IMAGE_ID = {R.drawable.ic_game_cat, R.drawable.ic_movie_cat, R.drawable.ic_food_cat, R.drawable.ic_household_cat, R.drawable.ic_gas_cat, R.drawable.ic_fix_cat};
 
     private ListView lvKategorien = null;
     private EditText txtInputBetrag = null;
@@ -33,15 +35,6 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
     private TextView txtOutputValue = null;
 
     private View addFragmentView;
-    private AppCompatActivity mainContext;
-    private SQLiteHandler db;
-
-    AddActivity(){}
-
-    AddActivity(AppCompatActivity mainContext, SQLiteHandler db){
-        this.mainContext = mainContext;
-        this.db = db;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,19 +48,16 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
         txtInputBeschreibung = (EditText) addFragmentView.findViewById(R.id.txtInput_Beschreibung);
         txtOutputValue = (TextView) addFragmentView.findViewById(R.id.txtOutput_Added);
 
-        String introText = "<b> Wilkommen beim Haushaltsbuch für Gamer! </b> <br>" +
+        String introText =
+                "<b> Wilkommen beim Haushaltsbuch für Gamer! </b> <br>" +
                 "Um einen neuen Eintrag anzulegen tragen Sie bitte einen Betrag ein und klicken anschließend auf eine Kategorie.<br>" +
                 "Das hinzufügen einer Beschreibung ist optional.";
 
         txtOutputValue.setText(Html.fromHtml(introText));
 
-        //ToDo Icons auf die Liste
-        //ToDo mehr Kategorien
-
+        clAdapter = new CustomList(getActivity(), KATEGORIEN, IMAGE_ID);
         lvKategorien = (ListView) addFragmentView.findViewById(R.id.list_kategorie);
-
-        ArrayAdapter<String> lvAdapter = new ArrayAdapter<>(mainContext, android.R.layout.simple_expandable_list_item_1, KATEGORIEN);
-        lvKategorien.setAdapter(lvAdapter);
+        lvKategorien.setAdapter(clAdapter);
         lvKategorien.setOnItemClickListener(this);
 
         return addFragmentView;
@@ -84,19 +74,21 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
         }
 
         if(tmpBetrag.equals("")){
-            Toast.makeText(mainContext, "Bitte einen Wert bei Betrag eintragen!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Bitte einen Wert bei Betrag eintragen!", Toast.LENGTH_LONG).show();
         }else{
             tmpTxtAusgabe =
-                    "Hinzugefügt:\n" +
-                    "Betrag:\t" + tmpBetrag + "\n" +
-                    "Beschreibung:\t" + tmpBeschreibung + "\n" +
-                    "Kategorie:\t" + KATEGORIEN[position];
+                    "<b>Hinzugefügt:</b><br>" +
+                    "Betrag: " + tmpBetrag + "<br>" +
+                    "Beschreibung: " + tmpBeschreibung + "<br>" +
+                    "Kategorie: " + KATEGORIEN[position];
 
-            txtOutputValue.setText(tmpTxtAusgabe);
             value = new Value(0, currentDate, tmpBeschreibung, Float.valueOf(tmpBetrag), KATEGORIEN[position]);
 
-            db.addValue(value);
+            ((MainActivity)getActivity()).getDb().addValue(value);
             ((MainActivity)getActivity()).getAdapter().notifyDataSetChanged();
+            ((MainActivity)getActivity()).setTabIcons();
+
+            txtOutputValue.setText(Html.fromHtml(tmpTxtAusgabe));
             txtInputBetrag.setText("");
             txtInputBeschreibung.setText("");
         }

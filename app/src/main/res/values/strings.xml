@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Haushaltsbuch für Gamer</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Wipe Data</string>
     <string name="overview">Overview</string>
     <string name="add">Add</string>
 </resources>

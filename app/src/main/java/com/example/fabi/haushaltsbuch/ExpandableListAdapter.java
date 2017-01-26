@@ -34,7 +34,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int i) {
-        return listHashMap.get(listDataHeader.get(i)).size();
+        if(!listHashMap.isEmpty()){
+            return listHashMap.get(listDataHeader.get(i)).size();
+        } else {
+            return 0;
+        }
     }
 
     @Override
@@ -44,7 +48,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
     @Override
     public Object getChild(int i, int i1) {
-        return listHashMap.get(listDataHeader.get(i)).get(i1); //i=Group Item, i1 = ChildItem
+        return listHashMap.get(listDataHeader.get(i)).get(i1);
     }
 
     @Override
