@@ -1,24 +1,21 @@
 package com.example.fabi.haushaltsbuch;
 
-import android.app.FragmentTransaction;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 public class AddActivity extends Fragment implements AdapterView.OnItemClickListener{
 
@@ -33,6 +30,7 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
     private EditText txtInputBetrag = null;
     private EditText txtInputBeschreibung = null;
     private TextView txtOutputValue = null;
+    private ImageView txtOutputSuccess = null;
 
     private View addFragmentView;
 
@@ -47,6 +45,7 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
 
         txtInputBeschreibung = (EditText) addFragmentView.findViewById(R.id.txtInput_Beschreibung);
         txtOutputValue = (TextView) addFragmentView.findViewById(R.id.txtOutput_Added);
+        txtOutputSuccess = (ImageView) addFragmentView.findViewById(R.id.txtOutput_Added_Success);
 
         String introText =
                 "<b> Wilkommen beim Haushaltsbuch für Gamer! </b> <br>" +
@@ -63,6 +62,7 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
         return addFragmentView;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String tmpBetrag = txtInputBetrag.getText().toString();
@@ -77,8 +77,8 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
             Toast.makeText(getActivity(), "Bitte einen Wert bei Betrag eintragen!", Toast.LENGTH_LONG).show();
         }else{
             tmpTxtAusgabe =
-                    "<b>Hinzugefügt:</b><br>" +
-                    "Betrag: " + tmpBetrag + "<br>" +
+                    "<b>Erfolgreich hinzugefügt!</b><br>" +
+                    "Betrag: " + tmpBetrag + " €<br>" +
                     "Beschreibung: " + tmpBeschreibung + "<br>" +
                     "Kategorie: " + KATEGORIEN[position];
 
@@ -89,6 +89,8 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
             ((MainActivity)getActivity()).setTabIcons();
 
             txtOutputValue.setText(Html.fromHtml(tmpTxtAusgabe));
+            txtOutputSuccess.setImageResource(R.drawable.ic_success);
+
             txtInputBetrag.setText("");
             txtInputBeschreibung.setText("");
         }
