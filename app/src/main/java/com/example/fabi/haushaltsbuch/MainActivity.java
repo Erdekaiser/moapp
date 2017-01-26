@@ -1,8 +1,6 @@
 package com.example.fabi.haushaltsbuch;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,9 +18,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Unsere einzige Activity und Haupteinstiegspunkt in die App.
+ * Hier wird eine Appbar inkl. Tabs und ViewPager erstellt welche über Tabs Fragmets verwalten kann.
+ * Zudem findet hier die initialisierung des Datenbank Objektes statt.
+ * Created by Fabian on 21.01.2017.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
-    private AppCompatActivity mainContext;
     private SQLiteHandler db;
 
     private Toolbar toolbar;
@@ -38,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        mainContext = this;
         db = new SQLiteHandler(this);
 
         //ToolbarLayout
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    //OptionsMenu Item "Wipe Data" inkl. Alert Dialog.
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -137,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(1).setIcon(R.drawable.ic_overview);
     }
 
+    //Löscht die komplette Value Liste
     public void deleteList(){
         List<Value> values = new LinkedList<>();
         values.addAll(db.getAllValues());

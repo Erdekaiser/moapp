@@ -63,6 +63,7 @@ class SQLiteHandler extends SQLiteOpenHelper{
         this.onCreate(db);
     }
 
+    //Zerlegt ein Value Objekt und fügt seine Einzelteile unserer Tabelle hinzu.
     void addValue(Value value){
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -72,7 +73,7 @@ class SQLiteHandler extends SQLiteOpenHelper{
         values.put(KEY_BETRAG, value.getBetrag().toString());
         values.put(KEY_KATEGORIE, value.getKategorie());
 
-        Log.d("Add Value: " , values.toString());
+        //Log.d("Add Value: " , values.toString());
         db.insert(TABLE_BALANCE, null, values);
 
         db.close();

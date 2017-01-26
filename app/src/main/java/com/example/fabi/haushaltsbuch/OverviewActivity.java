@@ -13,6 +13,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Fragmet für das anzeigen unserer Buchungen.
+ * Zudem wird hier die Gruppierung der Buchungen nach Monat vorgenommen.
+ * Created by Fabian on 21.01.2017.
+ */
+
 public class OverviewActivity extends Fragment {
 
     private View addFragmentView;

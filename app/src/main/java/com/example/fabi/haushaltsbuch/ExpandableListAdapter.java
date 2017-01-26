@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * Adapter für die Verwaltung unserer ExpendableList => Siehe auch OverviewActivity
  * Created by Fabian on 23.01.2017.
  */
 
@@ -34,6 +35,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int i) {
+        //Falls eine Gruppe kein Child hat würde es ohne diesen Vergleich zu einer NULL Pointer exception kommen.
         if(!listHashMap.isEmpty()){
             return listHashMap.get(listDataHeader.get(i)).size();
         } else {
@@ -66,6 +68,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
         return false;
     }
 
+    //Gruppe
     @Override
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         String headerTitle = (String)getGroup(i);
@@ -79,6 +82,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
         return view;
     }
 
+    //ListItem
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         final String childText = (String)getChild(i,i1);

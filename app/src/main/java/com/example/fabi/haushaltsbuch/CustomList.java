@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
+ * CustomListAdapter. Ermöglicht uns Bilder sowie Text in einem ArrayAdapter darzustellen.
  * Created by Fabian on 26.01.2017.
  */
 

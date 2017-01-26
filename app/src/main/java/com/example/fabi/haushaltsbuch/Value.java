@@ -1,9 +1,10 @@
 package com.example.fabi.haushaltsbuch;
 
-import java.util.Currency;
 import java.util.Date;
 
 /**
+ * Stellt unser Buchungsobjekt dar.
+ * Verfügt über Datum, Beschreibung, Betrag und Kategorie.
  * Created by Fabian on 21.01.2017.
  */
 

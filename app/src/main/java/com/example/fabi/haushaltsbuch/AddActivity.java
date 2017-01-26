@@ -1,7 +1,5 @@
 package com.example.fabi.haushaltsbuch;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -16,6 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
+
+/**
+ * Fragmet für das hinzufügen von Buchungen.
+ * Sowie Feedback über erfolgreiches hinzufügen.
+ * Created by Fabian on 21.01.2017.
+ */
 
 public class AddActivity extends Fragment implements AdapterView.OnItemClickListener{
 
@@ -62,7 +66,6 @@ public class AddActivity extends Fragment implements AdapterView.OnItemClickList
         return addFragmentView;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String tmpBetrag = txtInputBetrag.getText().toString();
