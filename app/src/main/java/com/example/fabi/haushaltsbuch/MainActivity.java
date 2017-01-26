@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
                 new AlertDialog.Builder(this)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Wipe Data")
-                        .setMessage("Are you sure you want wipe all data?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                        .setMessage("Es werden alle Einträge gelöscht. Sind Sie sicher?")
+                        .setPositiveButton("Ja", new DialogInterface.OnClickListener()
                         {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton("Nein", null)
                         .show();
                 return true;
         }
